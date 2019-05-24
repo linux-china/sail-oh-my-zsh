@@ -13,6 +13,12 @@ git clone git@github.com:linux-china/sail-oh-my-zsh.git ~/.oh-my-zsh/custom/plug
 * Edit ~/.zshrc and add 'sail' in plugin list
 * Enjoy sail cli completion
 
+### Features
+
+* commands completion
+* project name completion for sail shell, rm and edit
+* argument completion for sail run, ls
+
 ### References
 
 * Sail: https://sail.dev
