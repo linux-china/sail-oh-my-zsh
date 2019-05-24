@@ -1,0 +1,71 @@
+#compdef sail
+
+function _sail_projects() {
+   local ret=1 state
+    _arguments \
+    ':projectnames:->projectnames' \
+    '*:: :->subcmds' && ret=0
+
+  case $state in
+    projectnames)
+      projectnames=()
+      while read line ; do
+        if [[ ! $line == *status ]] ; then
+            read -A array <<< $line
+            projectnames+=("${array[1]}")
+        fi
+      done < <(sail ls)
+      _describe -t subcommands 'Sail projects' projectnames && ret=0
+  esac
+  return ret
+}
+
+function _sail() {
+  local ret=1 state
+  _arguments \
+    ':subcommand:->subcommand' \
+    '*:: :->subcmds' && ret=0
+
+  case $state in
+    subcommand)
+      subcommands=(
+        "run:Runs a project container"
+        "shell:shell drops you into the default shell of a repo container"
+        "edit:This command allows you to edit your project's environment while it's running."
+        "ls:Lists all containers with the com.coder.sail label"
+        "rm:Remove a sail container from the system"
+        "version:Retrieve the current version"
+        "install-for-chrome-ext:Installs the chrome native message host manifest"
+      )
+      _describe -t subcommands 'Sail subcommands' subcommands && ret=0
+  esac
+
+  case "$words[1]" in
+    shell | rm | edit)
+      _sail_projects && ret=0
+      ;;
+    ls) 
+      _arguments \
+        '(--all)--all[Show stopped container]' && ret=0 
+       ;;
+    run)
+      _arguments \
+        '(--hat)--hat[Custom hat to use]' \
+        '(--http)--http[Clone repo over HTTP]' \
+        '(--https)--https[Clone repo over HTTPS]' \
+        '(--image)--image[image[Show stopped container]' \
+        '(--keep)--keep[Keep container when it fails to build]' \
+        "(--no-open)--no-open[Don't open an editor session]" \
+        '(--rm)--rm[Delete existing container]' \
+        '(--ssh)--ssh[Clone repo over SSH]' \
+        '(--test-cmd)--test-cmd[A command to use in-place of starting code-server for testing purposes]' && ret=0
+      ;;
+    version | install-for-chrome-ext | run)
+      _generic
+      ;;
+  esac
+
+  return ret
+}
+
+_sail "$@"
