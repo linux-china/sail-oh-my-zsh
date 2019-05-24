@@ -60,7 +60,7 @@ function _sail() {
         '(--ssh)--ssh[Clone repo over SSH]' \
         '(--test-cmd)--test-cmd[A command to use in-place of starting code-server for testing purposes]' && ret=0
       ;;
-    version | install-for-chrome-ext | run)
+    version | install-for-chrome-ext)
       _generic
       ;;
   esac
