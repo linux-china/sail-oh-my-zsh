@@ -1,6 +1,6 @@
 sail-oh-my-zsh
 =================
-Sail oh-my-zsh plugin to implement completion.
+Sail oh-my-zsh plugin to implement cli completion.
 
 ### How to use it
 
